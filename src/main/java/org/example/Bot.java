@@ -86,39 +86,43 @@ public class Bot  extends TelegramLongPollingBot{
               System.out.println("excep "+me);
               me.printStackTrace();
       }
-          try {
-              MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
-              MqttConnectOptions connOpts = new MqttConnectOptions();
-              connOpts.setPassword("bot".toCharArray());
-              connOpts.setUserName("tel");
-              connOpts.setCleanSession(true);
-              System.out.println("Connecting to broker: "+broker);
-              sampleClient.connect(connOpts);
-              System.out.println("Connected");
-              //System.out.println("Publishing message: "+content);
-              //MqttMessage message = new MqttMessage(content.getBytes());
-              // message.setQos(qos);
-              CountDownLatch receivedSignal = new CountDownLatch(10);
-              sampleClient.subscribe(topic2, (topic3, msg3) -> {
-                  byte[] payload = msg3.getPayload();
-                  System.out.println(new String(msg3.getPayload()));
-                  sendText(5225475183L,new String(msg3.getPayload()));
-                  // ... payload handling omitted
-                  receivedSignal.countDown();
-              });
-              receivedSignal.await(5, TimeUnit.SECONDS);
-              //  sampleClient.publish(topic, message);
-          } catch(MqttException me) {
-              System.out.println("reason "+me.getReasonCode());
-              System.out.println("msg "+me.getMessage());
-              System.out.println("loc "+me.getLocalizedMessage());
-              System.out.println("cause "+me.getCause());
-              System.out.println("excep "+me);
-              me.printStackTrace();
-          } catch (InterruptedException e) {
-              throw new RuntimeException(e);
-          }
-    }}
+
+    }if(Objects.equals(msg.getText(), "command")){
+          sendText(user.getId(),"on");
+          sendText(user.getId(), "off");
+        }
+      try {
+            MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
+            MqttConnectOptions connOpts = new MqttConnectOptions();
+            connOpts.setPassword("bot".toCharArray());
+            connOpts.setUserName("tel");
+            connOpts.setCleanSession(true);
+            System.out.println("Connecting to broker: "+broker);
+            sampleClient.connect(connOpts);
+            System.out.println("Connected");
+            //System.out.println("Publishing message: "+content);
+            //MqttMessage message = new MqttMessage(content.getBytes());
+            // message.setQos(qos);
+            CountDownLatch receivedSignal = new CountDownLatch(10);
+            sampleClient.subscribe(topic2, (topic3, msg3) -> {
+                byte[] payload = msg3.getPayload();
+                System.out.println(new String(msg3.getPayload()));
+                sendText(5225475183L,new String(msg3.getPayload()));
+                // ... payload handling omitted
+                receivedSignal.countDown();
+            });
+            receivedSignal.await(5, TimeUnit.SECONDS);
+            //  sampleClient.publish(topic, message);
+        } catch(MqttException me) {
+            System.out.println("reason "+me.getReasonCode());
+            System.out.println("msg "+me.getMessage());
+            System.out.println("loc "+me.getLocalizedMessage());
+            System.out.println("cause "+me.getCause());
+            System.out.println("excep "+me);
+            me.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }}
 //5225475183
 public void sendText(Long who, String what){
     SendMessage sm = SendMessage.builder()

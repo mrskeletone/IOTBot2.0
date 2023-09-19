@@ -99,39 +99,7 @@ public class Bot  extends TelegramLongPollingBot{
           sendText(user.getId(),"on");
           sendText(user.getId(), "off");
         }
-     // while (true){
-//      try {
-//            MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
-//            MqttConnectOptions connOpts = new MqttConnectOptions();
-//            connOpts.setPassword("bot".toCharArray());
-//            connOpts.setUserName("tel");
-//            connOpts.setCleanSession(true);
-//            System.out.println("Connecting to broker: "+broker);
-//            sampleClient.connect(connOpts);
-//            System.out.println("Connected");
-//            //System.out.println("Publishing message: "+content);
-//            //MqttMessage message = new MqttMessage(content.getBytes());
-//            // message.setQos(qos);
-//            CountDownLatch receivedSignal = new CountDownLatch(10);
-//            sampleClient.subscribe(topic2, (topic3, msg3) -> {
-//                byte[] payload = msg3.getPayload();
-//                System.out.println(new String(msg3.getPayload()));
-//                sendText(5225475183L,new String(msg3.getPayload()));
-//                // ... payload handling omitted
-//                receivedSignal.countDown();
-//            });
-//            receivedSignal.await(5, TimeUnit.SECONDS);
-//            //  sampleClient.publish(topic, message);
-//        } catch(MqttException me) {
-//            System.out.println("reason "+me.getReasonCode());
-//            System.out.println("msg "+me.getMessage());
-//            System.out.println("loc "+me.getLocalizedMessage());
-//            System.out.println("cause "+me.getCause());
-//            System.out.println("excep "+me);
-//            me.printStackTrace();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
+
       if(Objects.equals(msg.getText(), "drop")){
           String content      = "1";
           try {
@@ -163,58 +131,17 @@ public class Bot  extends TelegramLongPollingBot{
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
         }
-//        String topicS        = "base/warning";
-//        String clientid = "tel_bot";
-//        String username = "tel";
-//        String password = "bot";
-//
-//        try {
-//            MqttClient client = new MqttClient(broker, clientid, new MemoryPersistence());
-//            // connect options
-//
-//            MqttConnectOptions options = new MqttConnectOptions();
-//            options.setUserName(username);
-//            options.setPassword(password.toCharArray());
-//            options.setCleanSession(true);
-//            // setup callback
-//            client.setCallback(new MqttCallback() {
-//
-//                public void connectionLost(Throwable cause) {
-//                    System.out.println("connectionLost: " + cause.getMessage());
-//                }
-//
-//                public void messageArrived(String topic, MqttMessage message) {
-//                    System.out.println("topic: " + topicS);
-//                    System.out.println("Qos: " + message.getQos());
-//                    System.out.println("message content: " + new String(message.getPayload()));
-//                    sendText(user.getId(),new String(message.getPayload()));
-//
-//                }
-//
-//                public void deliveryComplete(IMqttDeliveryToken token) {
-//                    System.out.println("deliveryComplete---------" + token.isComplete());
-//                }
-//
-//            });
-//            client.connect(options);
-//            client.subscribe(topic, qos);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-////      if(Objects.equals(msg.getText(), "off")||Objects.equals(msg.getText(), "Off") || Objects.equals(msg.getText(), "on")||Objects.equals(msg.getText(), "On")){
-////          break;
-////      }
-////      }
+
     }
 //5225475183
 public void sendText(Long who, String what){
     SendMessage sm = SendMessage.builder()
-            .chatId(who.toString()) //Who are we sending a message to
-            .text(what).build();    //Message content
+            .chatId(who.toString()) 
+            .text(what).build();    
     try {
-        execute(sm);                        //Actually sending the message
+        execute(sm);                       
     } catch (TelegramApiException e) {
-        throw new RuntimeException(e);      //Any error will be printed here
+        throw new RuntimeException(e);      
     }
 }
 }
